@@ -1,4 +1,4 @@
-﻿using NsuWorms.Math;
+﻿using NsuWorms.MathUtils;
 
 namespace NsuWorms.World
 {

@@ -1,4 +1,4 @@
-﻿using NsuWorms.Math;
+﻿using NsuWorms.MathUtils;
 using NsuWorms.World;
 using NsuWorms.Worms.AI.Behaviours;
 
