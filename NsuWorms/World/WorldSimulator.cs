@@ -1,6 +1,7 @@
 ﻿using NsuWorms.MathUtils;
 using NsuWorms.Worms;
-using NsuWorms.Worms.AI;
+using NsuWorms.Worms.AI.Behaviours;
+using NsuWorms.Worms.AI.Brains;
 using NsuWorms.Writers;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,19 @@ namespace NsuWorms.World
         private IWriter _writer;
         private int _foodHealthRecover = 10;
 
+        public IReadOnlyCollection<Worm> Worms => _worms;
+        public IReadOnlyCollection<Food> Foods => _foods;
+
         public WorldSimulator(IWriter writer)
         {
-            _worms.Add(new Worm(Vector2Int.Zero, new ClockWiseMovement(), "Ivan"));
+            AddWorm(Vector2Int.Zero, "Ivan");
             _writer = writer;
             WriteData();
+        }
+
+        private void AddWorm(Vector2Int position, string name)
+        {
+            _worms.Add(new Worm(position, new ChaseClosestFood(), name));
         }
 
         public void Tick()
@@ -48,17 +57,79 @@ namespace NsuWorms.World
             Vector2Int position;
             do
             {
-                position = new Vector2Int(random.NextNormal(), random.NextNormal());
+                position = new Vector2Int(random.NextNormal(0, 5), random.NextNormal(0, 5));
+
+                var worm = GetWormAt(position);
+
+                if (worm != null)
+                {
+                    worm.AddHealth(_foodHealthRecover);
+                    return;
+                }
+
             } while (!IsCellFree(position));
             _foods.Add(new Food(position));
         }
 
         private void UpdateWorms()
         {
-            foreach (var worm in _worms)
+            var count = _worms.Count;
+
+            for (int i = 0; i < count; i++)
             {
-                worm.ApplyBehaviour(worm.RequestBehaviour(this));
+                SimulateWorm(_worms[i]);
             }
+        }
+
+        private void SimulateWorm(Worm worm)
+        {
+            worm.Tick();
+            var behaviour = worm.RequestBehaviour(this);
+
+            switch (behaviour.GetBehaviourType())
+            {
+                case NsuWorms.Worms.AI.BehaviourType.Null:
+                    break;
+                case NsuWorms.Worms.AI.BehaviourType.ChangeDirection:
+                    ApplyChangeDirection(worm, behaviour as MoveInDirectionBehaviour);
+                    break;
+                case NsuWorms.Worms.AI.BehaviourType.Reproduce:
+                    ApplyReproduce(worm, behaviour as ReproduceBehaviour);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ApplyChangeDirection(Worm target, MoveInDirectionBehaviour behaviour)
+        {
+            if (behaviour == null)
+            {
+                return;
+            }
+
+            var desiredPosition = target.Position + DirectionUtils.Direction2Vector(behaviour.Direction);
+            if (GetWormAt(desiredPosition) == null)
+            {
+                target.TryApplyChangePositionBehaviour(behaviour);
+            }
+        }
+
+        private void ApplyReproduce(Worm target, ReproduceBehaviour behaviour)
+        {
+            if (behaviour == null)
+            {
+                return;
+            }
+
+            var desiredPosition = target.Position + DirectionUtils.Direction2Vector(behaviour.Direction);
+
+            if (IsCellFree(desiredPosition) && target.Health > Worm.ReproduceCost)
+            {
+                AddWorm(desiredPosition, $"Ivan{Worm.GlobalCount}");
+            }
+
+            target.Reproduce();
         }
 
         private void TryEatFood()
@@ -67,7 +138,7 @@ namespace NsuWorms.World
             {
                 var food = GetFoodAt(worm.Position);
 
-                if(food != null)
+                if (food != null)
                 {
                     _foods.Remove(food);
                     worm.AddHealth(_foodHealthRecover);
@@ -88,7 +159,7 @@ namespace NsuWorms.World
 
             foreach (var worm in _worms)
             {
-                if(!first)
+                if (!first)
                 {
                     line += ",";
                 }
@@ -97,9 +168,7 @@ namespace NsuWorms.World
             }
 
             line += "]";
-
             line += ",";
-
             line += "Food:[";
 
             first = true;
@@ -135,7 +204,7 @@ namespace NsuWorms.World
 
             var food = GetFoodAt(position);
 
-            if(food != null)
+            if (food != null)
             {
                 return food;
             }

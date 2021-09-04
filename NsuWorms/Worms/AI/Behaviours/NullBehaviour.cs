@@ -2,6 +2,9 @@
 {
     public class NullBehaviour : BehaviourEntity
     {
-
+        public override BehaviourType GetBehaviourType()
+        {
+            return BehaviourType.Null;
+        }
     }
 }

@@ -8,9 +8,14 @@ namespace NsuWorms.Worms
 {
     public class Worm : WorldObject
     {
+        private static int count = 0; 
+
+        public const int ReproduceCost = 10;
+
         private IWormBrain _brain;
         private int _health;
 
+        public static int GlobalCount => count;
         public readonly string Name;
 
         public int Health
@@ -21,8 +26,9 @@ namespace NsuWorms.Worms
 
         public bool Dead => Health == 0;
 
-        public Worm(Vector2Int initialPosition, IWormBrain brain, string name = "New_Worm", int health = 20) : base(initialPosition)
+        public Worm(Vector2Int initialPosition, IWormBrain brain, string name = "New_Worm", int health = 10) : base(initialPosition)
         {
+            count++;
             Health = health;
             Name = name;
             _brain = brain;
@@ -33,15 +39,34 @@ namespace NsuWorms.Worms
             return _brain.RequestBehaviour(this, context);
         }
 
-        public void ApplyBehaviour(BehaviourEntity behaviour)
+        public void Tick()
         {
             Health--;
+        }
 
-            var changeDirection = behaviour as ChangeDirectionBehaviour;
-
-            if(changeDirection != null)
+        public void TryApplyChangePositionBehaviour(MoveInDirectionBehaviour changePosition)
+        {
+            if (changePosition == null)
             {
-                Position += changeDirection.PositionDelta;
+                return;
+            }
+
+            switch (changePosition.Direction)
+            {
+                case Direction.Up:
+                    Position += new Vector2Int(0, 1);
+                    break;
+                case Direction.Right:
+                    Position += new Vector2Int(1, 0);
+                    break;
+                case Direction.Down:
+                    Position += new Vector2Int(0, -1);
+                    break;
+                case Direction.Left:
+                    Position += new Vector2Int(-1, 0);
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -53,6 +78,11 @@ namespace NsuWorms.Worms
             }
 
             Health += delta;
+        }
+
+        public void Reproduce()
+        {
+            Health -= ReproduceCost;
         }
     }
 }

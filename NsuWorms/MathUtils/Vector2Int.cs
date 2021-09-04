@@ -32,6 +32,13 @@ namespace NsuWorms.MathUtils
             return X == other.X && Y == other.Y;
         }
 
+        public static float SqrDistance(Vector2Int a, Vector2Int b)
+        {
+            var deltaX = a.X - b.X;
+            var deltaY = a.Y - b.Y;
+            return deltaX * deltaX + deltaY * deltaY;
+        }
+
         public static Vector2Int operator +(Vector2Int a, Vector2Int b)
         {
             return new Vector2Int(a.X + b.X, a.Y + b.Y);

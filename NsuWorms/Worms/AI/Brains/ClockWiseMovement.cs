@@ -2,22 +2,22 @@
 using NsuWorms.World;
 using NsuWorms.Worms.AI.Behaviours;
 
-namespace NsuWorms.Worms.AI
+namespace NsuWorms.Worms.AI.Brains
 {
     public class ClockWiseMovement : IWormBrain
     {
         private bool _isFirstMove = true;
         private int _step = -1;
 
-        private Vector2Int[] _directions =  {
-            new Vector2Int(1, 0),
-            new Vector2Int(0, -1),
-            new Vector2Int(0, -1),
-            new Vector2Int(-1, 0),
-            new Vector2Int(-1, 0),
-            new Vector2Int(0, 1),
-            new Vector2Int(0, 1),
-            new Vector2Int(1, 0)
+        private Direction[] _directions =  {
+            Direction.Right,
+            Direction.Down,
+            Direction.Down,
+            Direction.Left,
+            Direction.Left,
+            Direction.Up,
+            Direction.Up,
+            Direction.Right
         };
 
         public BehaviourEntity RequestBehaviour(Worm target, WorldSimulator world)
@@ -25,12 +25,12 @@ namespace NsuWorms.Worms.AI
             if (_isFirstMove)
             {
                 _isFirstMove = false;
-                return new ChangeDirectionBehaviour(new Vector2Int(0, 1));
+                return new MoveInDirectionBehaviour(Direction.Up);
             }
 
             _step = (_step + 1) % _directions.Length;
 
-            return new ChangeDirectionBehaviour(_directions[_step]);
+            return new MoveInDirectionBehaviour(_directions[_step]);
         }
     }
 }
