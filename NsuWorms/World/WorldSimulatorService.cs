@@ -4,7 +4,6 @@ using NsuWorms.Worms;
 using NsuWorms.Worms.AI;
 using NsuWorms.Worms.AI.Behaviours;
 using NsuWorms.Writers;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -94,12 +93,12 @@ namespace NsuWorms.World
 
             switch (behaviour.GetBehaviourType())
             {
-                case NsuWorms.Worms.AI.BehaviourType.Null:
+                case BehaviourType.Null:
                     break;
-                case NsuWorms.Worms.AI.BehaviourType.ChangeDirection:
+                case BehaviourType.ChangeDirection:
                     ApplyChangeDirection(worm, behaviour as MoveInDirectionBehaviour);
                     break;
-                case NsuWorms.Worms.AI.BehaviourType.Reproduce:
+                case BehaviourType.Reproduce:
                     ApplyReproduce(worm, behaviour as ReproduceBehaviour);
                     break;
                 default:
@@ -214,8 +213,6 @@ namespace NsuWorms.World
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            Console.WriteLine("StartAsync");
-
             for (int i = 0; i < 100; i++)
             {
                 Tick();
@@ -226,7 +223,6 @@ namespace NsuWorms.World
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            Console.WriteLine("StopAsync");
             return Task.CompletedTask;
         }
     }
