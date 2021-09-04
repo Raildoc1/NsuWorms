@@ -4,6 +4,6 @@ namespace NsuWorms.Worms.AI
 {
     public interface IWormBrain
     {
-        BehaviourEntity RequestBehaviour(Worm target, WorldSimulator world);
+        BehaviourEntity RequestBehaviour(Worm target, WorldSimulatorService world);
     }
 }

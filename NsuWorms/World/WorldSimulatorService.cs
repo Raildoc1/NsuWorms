@@ -1,33 +1,44 @@
-﻿using NsuWorms.MathUtils;
+﻿using Microsoft.Extensions.Hosting;
+using NsuWorms.MathUtils;
 using NsuWorms.Worms;
+using NsuWorms.Worms.AI;
 using NsuWorms.Worms.AI.Behaviours;
-using NsuWorms.Worms.AI.Brains;
 using NsuWorms.Writers;
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NsuWorms.World
 {
-    public class WorldSimulator
+    public class WorldSimulatorService : IHostedService
     {
         private List<Worm> _worms = new List<Worm>();
         private List<Food> _foods = new List<Food>();
         private IWriter _writer;
+        private IFoodGenerator _foodGenerator;
+        private IWormBrain _wormBrain;
+        private IWorld2StringConverter _toStringConverter;
         private int _foodHealthRecover = 10;
 
         public IReadOnlyCollection<Worm> Worms => _worms;
         public IReadOnlyCollection<Food> Foods => _foods;
 
-        public WorldSimulator(IWriter writer)
+        public WorldSimulatorService(IWriter writer, IFoodGenerator foodGenerator, IWormBrain wormBrain, IWorld2StringConverter converter)
         {
-            AddWorm(Vector2Int.Zero, "Ivan");
             _writer = writer;
+            _foodGenerator = foodGenerator;
+            _wormBrain = wormBrain;
+            _toStringConverter = converter;
+
+            AddWorm(Vector2Int.Zero, "Ivan");
+
             WriteData();
         }
 
         private void AddWorm(Vector2Int position, string name)
         {
-            _worms.Add(new Worm(position, new ChaseClosestFood(), name));
+            _worms.Add(new Worm(position, _wormBrain, name));
         }
 
         public void Tick()
@@ -53,21 +64,16 @@ namespace NsuWorms.World
 
         private void GenerateFood()
         {
-            Random random = new Random();
-            Vector2Int position;
-            do
+            Vector2Int position = _foodGenerator.GenerateFood(Foods);
+
+            var worm = GetWormAt(position);
+
+            if (worm != null)
             {
-                position = new Vector2Int(random.NextNormal(0, 5), random.NextNormal(0, 5));
+                worm.AddHealth(_foodHealthRecover);
+                return;
+            }
 
-                var worm = GetWormAt(position);
-
-                if (worm != null)
-                {
-                    worm.AddHealth(_foodHealthRecover);
-                    return;
-                }
-
-            } while (!IsCellFree(position));
             _foods.Add(new Food(position));
         }
 
@@ -153,39 +159,7 @@ namespace NsuWorms.World
 
         private void WriteData()
         {
-            var line = "Worms:[";
-
-            var first = true;
-
-            foreach (var worm in _worms)
-            {
-                if (!first)
-                {
-                    line += ",";
-                }
-                line += $"{worm.Name}-{worm.Health}({worm.Position.X},{worm.Position.Y})";
-                first = false;
-            }
-
-            line += "]";
-            line += ",";
-            line += "Food:[";
-
-            first = true;
-
-            foreach (var food in _foods)
-            {
-                if (!first)
-                {
-                    line += ",";
-                }
-                line += $"({food.Position.X},{food.Position.Y})";
-                first = false;
-            }
-
-            line += "]";
-
-            _writer.WriteLine(line);
+            _writer.WriteLine(_toStringConverter.Convert(this));
         }
 
         public bool IsCellFree(Vector2Int cell)
@@ -236,6 +210,24 @@ namespace NsuWorms.World
             }
 
             return null;
+        }
+
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            Console.WriteLine("StartAsync");
+
+            for (int i = 0; i < 100; i++)
+            {
+                Tick();
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            Console.WriteLine("StopAsync");
+            return Task.CompletedTask;
         }
     }
 }

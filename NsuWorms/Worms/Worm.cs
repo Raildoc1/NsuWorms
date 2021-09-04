@@ -34,7 +34,7 @@ namespace NsuWorms.Worms
             _brain = brain;
         }
 
-        public BehaviourEntity RequestBehaviour(WorldSimulator context)
+        public BehaviourEntity RequestBehaviour(WorldSimulatorService context)
         {
             return _brain.RequestBehaviour(this, context);
         }

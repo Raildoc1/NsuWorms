@@ -20,7 +20,7 @@ namespace NsuWorms.Worms.AI.Brains
             Direction.Right
         };
 
-        public BehaviourEntity RequestBehaviour(Worm target, WorldSimulator world)
+        public BehaviourEntity RequestBehaviour(Worm target, WorldSimulatorService world)
         {
             if (_isFirstMove)
             {

@@ -7,7 +7,7 @@ namespace NsuWorms.Worms.AI.Brains
 {
     public class ChaseClosestFood : IWormBrain
     {
-        public BehaviourEntity RequestBehaviour(Worm target, WorldSimulator world)
+        public BehaviourEntity RequestBehaviour(Worm target, WorldSimulatorService world)
         {
             if(world.Foods.Count == 0)
             {
@@ -26,7 +26,7 @@ namespace NsuWorms.Worms.AI.Brains
             return new MoveInDirectionBehaviour(DirectionUtils.Vector2Direction(new Vector2Int(0, Math.Sign(direction.Y))));
         }
 
-        private Vector2Int FindClosestFood(Vector2Int wormPosition, WorldSimulator world)
+        private Vector2Int FindClosestFood(Vector2Int wormPosition, WorldSimulatorService world)
         {
             var minSqrDistance = float.PositiveInfinity;
             var closest = wormPosition;
