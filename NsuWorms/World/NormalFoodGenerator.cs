@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace NsuWorms.World
 {
-    public class SimpleFoodGenerator : IFoodGenerator
+    public class NormalFoodGenerator : IFoodGenerator
     {
         private Random _random;
 
-        public SimpleFoodGenerator(int? seed = null)
+        public NormalFoodGenerator(int? seed = null)
         {
             _random = seed == null ? new Random() : new Random((int)seed);
         }

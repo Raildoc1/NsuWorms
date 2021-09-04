@@ -21,7 +21,7 @@ namespace NsuWorms
                 {
                     services.AddHostedService<WorldSimulatorService>();
                     services.AddScoped<IWriter>(ctx => { return new FileWriter("output.txt"); });
-                    services.AddScoped<IFoodGenerator>(ctx => { return new SimpleFoodGenerator(1); });
+                    services.AddScoped<IFoodGenerator>(ctx => { return new NormalFoodGenerator(1); });
                     services.AddScoped<IWorld2StringConverter, World2StringConverter>();
                     services.AddScoped<IWormBrain, ChaseClosestFood>();
                 });

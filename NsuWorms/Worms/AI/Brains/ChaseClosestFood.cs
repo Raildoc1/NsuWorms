@@ -28,20 +28,26 @@ namespace NsuWorms.Worms.AI.Brains
 
         private Vector2Int FindClosestFood(Vector2Int wormPosition, WorldSimulatorService world)
         {
-            var minSqrDistance = float.PositiveInfinity;
+            var minDistance = int.MaxValue;
             var closest = wormPosition;
 
             foreach (var food in world.Foods)
             {
-                var sqrDistance = Vector2Int.SqrDistance(wormPosition, food.Position);
-                if(sqrDistance < minSqrDistance)
+                var distance = GetDiscreteDistance(wormPosition, food.Position);
+                if(distance < minDistance)
                 {
-                    minSqrDistance = sqrDistance;
+                    minDistance = distance;
                     closest = food.Position;
                 }
             }
 
             return closest;
+
+            int GetDiscreteDistance(Vector2Int a, Vector2Int b)
+            {
+                var direction = b - a;
+                return Math.Abs(direction.X) + Math.Abs(direction.Y);
+            }
         }
     }
 }
