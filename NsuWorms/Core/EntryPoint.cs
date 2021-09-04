@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NsuWorms.Database;
 using NsuWorms.World;
 using NsuWorms.Worms.AI;
 using NsuWorms.Worms.AI.Brains;
@@ -11,6 +12,7 @@ namespace NsuWorms
     {
         private static void Main(string[] args)
         {
+            SqlConnector.Connect();
             CreateHostBuilder(args).Build().Run();
         }
 

@@ -24,7 +24,7 @@ namespace NsuWormsNUnitTests
                 new World2StringConverter()
                 );
 
-            // First worm starts on (0, 0)
+            // Worm starts on (0, 0)
             Assert.AreEqual(worldSimulator.Worms.Count, 1);
             Assert.AreEqual(worldSimulator.Worms.ElementAt(0).Position, new Vector2Int(0, 0));
 
