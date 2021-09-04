@@ -1,8 +1,8 @@
-﻿using NsuWorms.Worms;
+﻿using NsuWorms.Math;
+using NsuWorms.Worms;
 using NsuWorms.Worms.AI;
 using NsuWorms.Writers;
 using System.Collections.Generic;
-using System.Numerics;
 
 namespace NsuWorms.World
 {
@@ -13,8 +13,9 @@ namespace NsuWorms.World
 
         public WorldSimulator(IWriter writer)
         {
-            _worms.Add(new Worm(Vector2.Zero, new ClockWiseMovement(), "Ivan"));
+            _worms.Add(new Worm(Vector2Int.Zero, new ClockWiseMovement(), "Ivan"));
             _writer = writer;
+            WriteData();
         }
 
         public void Tick()
@@ -43,7 +44,7 @@ namespace NsuWorms.World
             }
 
             line += "]";
-            
+
             _writer.WriteLine(line);
         }
     }

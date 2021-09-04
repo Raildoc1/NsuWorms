@@ -1,7 +1,7 @@
-﻿using NsuWorms.World;
+﻿using NsuWorms.Math;
+using NsuWorms.World;
 using NsuWorms.Worms.AI;
 using NsuWorms.Worms.AI.Behaviours;
-using System.Numerics;
 
 namespace NsuWorms.Worms
 {
@@ -10,7 +10,7 @@ namespace NsuWorms.Worms
         public readonly string Name;
         private IWormBrain _brain;
 
-        public Worm(Vector2 initialPosition, IWormBrain brain, string name = "New_Worm") : base(initialPosition)
+        public Worm(Vector2Int initialPosition, IWormBrain brain, string name = "New_Worm") : base(initialPosition)
         {
             Name = name;
             _brain = brain;
