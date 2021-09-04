@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NsuWormsWorldBehaviourGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "beh-1"
+    }
+  }
+}

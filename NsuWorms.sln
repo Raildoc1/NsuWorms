@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NsuWorms", "NsuWorms\NsuWor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NsuWormsNUnitTests", "NsuWormsNUnitTests\NsuWormsNUnitTests.csproj", "{614EA8A6-711F-4623-9291-0898728BCA66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NsuWormsWorldBehaviourGenerator", "NsuWormsWorldBehaviourGenerator\NsuWormsWorldBehaviourGenerator.csproj", "{11B77438-1413-49FD-8EF8-2C04D7AE99BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{614EA8A6-711F-4623-9291-0898728BCA66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{614EA8A6-711F-4623-9291-0898728BCA66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{614EA8A6-711F-4623-9291-0898728BCA66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11B77438-1413-49FD-8EF8-2C04D7AE99BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11B77438-1413-49FD-8EF8-2C04D7AE99BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11B77438-1413-49FD-8EF8-2C04D7AE99BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11B77438-1413-49FD-8EF8-2C04D7AE99BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
