@@ -2,7 +2,7 @@
 
 namespace NsuWorms.Worms.AI.Behaviours
 {
-    public class ReproduceBehaviour : BehaviourEntity
+    public sealed class ReproduceBehaviour : BehaviourEntity
     {
         private Direction _direction;
         public Direction Direction => _direction;

@@ -1,6 +1,6 @@
 ﻿namespace NsuWorms.Worms.AI.Behaviours
 {
-    public class NullBehaviour : BehaviourEntity
+    public sealed class NullBehaviour : BehaviourEntity
     {
         public override BehaviourType GetBehaviourType()
         {

@@ -3,7 +3,7 @@ using NsuWorms.World;
 
 namespace NsuWorms.Database
 {
-    public class BehavioursDbContext : DbContext
+    public sealed class BehavioursDbContext : DbContext
     {
         public BehavioursDbContext(DbContextOptions<BehavioursDbContext> options) : base(options)
         {

@@ -3,7 +3,7 @@ using System.IO;
 
 namespace NsuWorms.Writers
 {
-    public class FileWriter : IWriter, IDisposable
+    public sealed class FileWriter : IWriter, IDisposable
     {
         private StreamWriter _streamWriter;
 

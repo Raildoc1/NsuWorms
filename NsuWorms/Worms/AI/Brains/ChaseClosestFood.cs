@@ -5,7 +5,7 @@ using System;
 
 namespace NsuWorms.Worms.AI.Brains
 {
-    public class ChaseClosestFood : IWormBrain
+    public sealed class ChaseClosestFood : IWormBrain
     {
         public BehaviourEntity RequestBehaviour(Worm target, WorldSimulatorService world)
         {

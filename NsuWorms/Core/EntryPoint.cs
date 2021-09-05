@@ -9,9 +9,9 @@ using NsuWorms.Worms.AI.Brains;
 using NsuWorms.Writers;
 using System.Configuration;
 
-namespace NsuWorms
+namespace NsuWorms.Core
 {
-    public class EntryPoint
+    public sealed class EntryPoint
     {
         private static void Main(string[] args)
         {

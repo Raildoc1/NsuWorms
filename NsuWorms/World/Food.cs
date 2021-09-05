@@ -2,7 +2,7 @@
 
 namespace NsuWorms.World
 {
-    public class Food : WorldObject
+    public sealed class Food : WorldObject
     {
         private int _lifeTime;
         public int LifeTime => _lifeTime;

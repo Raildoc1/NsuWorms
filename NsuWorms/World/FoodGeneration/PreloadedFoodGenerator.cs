@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NsuWorms.World.FoodGeneration
 {
-    class PreloadedFoodGenerator : IFoodGenerator
+    public sealed class PreloadedFoodGenerator : IFoodGenerator
     {
         private readonly IFoodDataLoader _foodDataLoader;
 

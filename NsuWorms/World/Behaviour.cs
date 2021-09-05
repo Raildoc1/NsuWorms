@@ -1,6 +1,6 @@
 ﻿namespace NsuWorms.World
 {
-    public class Behaviour
+    public sealed class Behaviour
     {
         public string Id { get; set; }
         public string Points { get; set; }

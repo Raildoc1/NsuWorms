@@ -1,6 +1,6 @@
 ﻿namespace NsuWorms.Database
 {
-    public class DatabaseFoodReader : IDatabaseFoodReader
+    public sealed class DatabaseFoodReader : IDatabaseFoodReader
     {
         private string _behaviourName;
 

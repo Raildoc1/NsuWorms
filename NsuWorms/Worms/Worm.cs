@@ -6,7 +6,7 @@ using System;
 
 namespace NsuWorms.Worms
 {
-    public class Worm : WorldObject
+    public sealed class Worm : WorldObject
     {
         private static int count = 0; 
 

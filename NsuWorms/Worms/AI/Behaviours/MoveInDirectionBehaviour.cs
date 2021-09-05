@@ -2,7 +2,7 @@
 
 namespace NsuWorms.Worms.AI.Behaviours
 {
-    public class MoveInDirectionBehaviour : BehaviourEntity
+    public sealed class MoveInDirectionBehaviour : BehaviourEntity
     {
         private Direction _positionDelta;
         public Direction Direction => _positionDelta;

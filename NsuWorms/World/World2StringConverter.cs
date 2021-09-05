@@ -1,6 +1,6 @@
 ﻿namespace NsuWorms.World
 {
-    public class World2StringConverter : IWorld2StringConverter
+    public sealed class World2StringConverter : IWorld2StringConverter
     {
         public string Convert(WorldSimulatorService world)
         {

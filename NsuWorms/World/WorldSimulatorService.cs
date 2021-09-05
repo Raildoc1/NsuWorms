@@ -11,14 +11,15 @@ using System.Threading.Tasks;
 
 namespace NsuWorms.World
 {
-    public class WorldSimulatorService : IHostedService
+    public sealed class WorldSimulatorService : IHostedService
     {
+        private readonly IWriter _writer;
+        private readonly IFoodGenerator _foodGenerator;
+        private readonly IWormBrain _wormBrain;
+        private readonly IWorld2StringConverter _toStringConverter;
+
         private List<Worm> _worms = new List<Worm>();
         private List<Food> _foods = new List<Food>();
-        private IWriter _writer;
-        private IFoodGenerator _foodGenerator;
-        private IWormBrain _wormBrain;
-        private IWorld2StringConverter _toStringConverter;
         private int _foodHealthRecover = 10;
 
         public IReadOnlyCollection<Worm> Worms => _worms;

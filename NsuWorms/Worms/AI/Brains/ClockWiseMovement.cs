@@ -4,7 +4,7 @@ using NsuWorms.Worms.AI.Behaviours;
 
 namespace NsuWorms.Worms.AI.Brains
 {
-    public class ClockWiseMovement : IWormBrain
+    public sealed class ClockWiseMovement : IWormBrain
     {
         private bool _isFirstMove = true;
         private int _step = -1;
