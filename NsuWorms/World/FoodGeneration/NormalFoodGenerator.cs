@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NsuWorms.World
+namespace NsuWorms.World.FoodGeneration
 {
     public class NormalFoodGenerator : IFoodGenerator
     {
@@ -28,7 +28,7 @@ namespace NsuWorms.World
         {
             foreach (var cell in forbiddenCells)
             {
-                if(position == cell.Position)
+                if (position == cell.Position)
                 {
                     return false;
                 }

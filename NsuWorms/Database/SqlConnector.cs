@@ -7,21 +7,28 @@ namespace NsuWorms.Database
 {
     public class SqlConnector
     {
-        public static void Connect()
+        public string ConnectAndReadData(string name)
         {
             SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["localWindowsDatabase"].ConnectionString);
 
             try
             {
                 connection.Open();
-                if (connection.State == ConnectionState.Open)
+                if (connection.State != ConnectionState.Open)
                 {
-                    Console.WriteLine("Opened!");
+                    Console.WriteLine("Failed to open database!");
+                    return string.Empty;
                 }
+
+                var adapter = new SqlDataAdapter($"SELECT [Behaviour] FROM [dbo].[Behaviours] WHERE [NAME]=N'{name}'", connection);
+                var dataSet = new DataSet();
+                adapter.Fill(dataSet);
+                return (string)dataSet.Tables[0].Rows[0].ItemArray[0];
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace);
+                Console.WriteLine(ex);
+                return string.Empty;
             }
             finally
             {

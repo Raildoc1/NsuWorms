@@ -1,5 +1,6 @@
 using NsuWorms.MathUtils;
 using NsuWorms.World;
+using NsuWorms.World.FoodGeneration;
 using NsuWorms.Worms;
 using NsuWorms.Worms.AI;
 using NsuWorms.Worms.AI.Behaviours;

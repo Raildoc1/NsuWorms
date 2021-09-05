@@ -1,7 +1,7 @@
 ﻿using NsuWorms.MathUtils;
 using System.Collections.Generic;
 
-namespace NsuWorms.World
+namespace NsuWorms.World.FoodGeneration
 {
     public interface IFoodGenerator
     {

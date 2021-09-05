@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using NsuWorms.Database;
 using NsuWorms.World;
+using NsuWorms.World.FoodGeneration;
 using NsuWorms.Worms.AI;
 using NsuWorms.Worms.AI.Brains;
 using NsuWorms.Writers;
@@ -12,7 +13,6 @@ namespace NsuWorms
     {
         private static void Main(string[] args)
         {
-            SqlConnector.Connect();
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -23,7 +23,7 @@ namespace NsuWorms
                 {
                     services.AddHostedService<WorldSimulatorService>();
                     services.AddScoped<IWriter>(ctx => { return new FileWriter("output.txt"); });
-                    services.AddScoped<IFoodGenerator>(ctx => { return new NormalFoodGenerator(1); });
+                    services.AddScoped<IFoodGenerator>(ctx => { return new SqlBasedFoodGenerator(args[0]); });
                     services.AddScoped<IWorld2StringConverter, World2StringConverter>();
                     services.AddScoped<IWormBrain, ChaseClosestFood>();
                 });
