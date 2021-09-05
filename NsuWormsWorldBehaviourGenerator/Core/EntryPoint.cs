@@ -20,7 +20,7 @@ namespace NsuWormsWorldBehaviourGenerator.Core
             return Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddHostedService<GeneratorDatabaseDataProvider>();
+                    services.AddHostedService<DatabaseBehaviourDataProviderService>();
                     services.AddScoped<IGenerator>(ctx => { return new NormalRandomGenerator(args[0]); });
                     services.AddScoped<IDatabaseBehaviourWriter, SqlBehaviourWriter>();
                     services.AddDbContextPool<BehavioursDbContext>(options => options.UseSqlServer(ConfigurationManager.ConnectionStrings["localWindowsDatabase"].ConnectionString));

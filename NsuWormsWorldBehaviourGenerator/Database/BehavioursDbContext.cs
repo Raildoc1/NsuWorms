@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using NsuWormsWorldBehaviourGenerator.Core;
+using System;
 
 namespace NsuWormsWorldBehaviourGenerator.Database
 {
@@ -16,7 +17,7 @@ namespace NsuWormsWorldBehaviourGenerator.Database
                 var databaseCreator = (Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator);
                 databaseCreator.CreateTables();
             }
-            catch (System.Data.SqlClient.SqlException) { }
+            catch (Exception) { }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

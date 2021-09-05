@@ -2,7 +2,7 @@
   "profiles": {
     "NsuWormsWorldBehaviourGenerator": {
       "commandName": "Project",
-      "commandLineArgs": "beh-2"
+      "commandLineArgs": "beh-3"
     }
   }
 }

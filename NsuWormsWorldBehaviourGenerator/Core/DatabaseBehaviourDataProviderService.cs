@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace NsuWormsWorldBehaviourGenerator.Core
 {
-    public sealed class GeneratorDatabaseDataProvider : IHostedService
+    public sealed class DatabaseBehaviourDataProviderService : IHostedService
     {
         private readonly IGenerator _generator;
         private readonly IDatabaseBehaviourWriter _databaseWriter;
 
-        public GeneratorDatabaseDataProvider(IGenerator generator, IDatabaseBehaviourWriter databaseWriter)
+        public DatabaseBehaviourDataProviderService(IGenerator generator, IDatabaseBehaviourWriter databaseWriter)
         {
             _generator = generator;
             _databaseWriter = databaseWriter;
