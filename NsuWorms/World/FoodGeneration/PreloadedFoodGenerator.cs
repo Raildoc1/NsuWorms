@@ -1,21 +1,23 @@
-﻿using NsuWorms.Database;
-using NsuWorms.MathUtils;
+﻿using NsuWorms.MathUtils;
 using System;
 using System.Collections.Generic;
 
 namespace NsuWorms.World.FoodGeneration
 {
-    class SqlBasedFoodGenerator : IFoodGenerator
+    class PreloadedFoodGenerator : IFoodGenerator
     {
+        private readonly IFoodDataLoader _foodDataLoader;
+
         private List<Vector2Int> _foods = new List<Vector2Int>();
         private int _currentMove = 0;
 
-        public SqlBasedFoodGenerator(string behaviourName)
+        public PreloadedFoodGenerator(IFoodDataLoader foodDataLoader)
         {
+            _foodDataLoader = foodDataLoader;
+
             try
             {
-                SqlConnector connector = new SqlConnector();
-                Fill(connector.ConnectAndReadData(behaviourName));
+                Fill(_foodDataLoader.Load());
             }
             catch (Exception)
             {

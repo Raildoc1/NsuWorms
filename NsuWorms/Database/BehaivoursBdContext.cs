@@ -5,12 +5,6 @@ namespace NsuWorms.Database
 {
     public class BehavioursDbContext : DbContext
     {
-
-        public BehavioursDbContext() : base()
-        {
-
-        }
-
         public BehavioursDbContext(DbContextOptions<BehavioursDbContext> options) : base(options)
         {
 
