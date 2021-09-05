@@ -12,8 +12,17 @@ namespace NsuWorms.World.FoodGeneration
 
         public SqlBasedFoodGenerator(string behaviourName)
         {
-            SqlConnector connector = new SqlConnector();
-            Fill(connector.ConnectAndReadData(behaviourName));
+            try
+            {
+                SqlConnector connector = new SqlConnector();
+                Fill(connector.ConnectAndReadData(behaviourName));
+            }
+            catch (Exception)
+            {
+                _foods.Clear();
+                Console.WriteLine("Failed to load behaviour!");
+                _foods.Add(Vector2Int.Zero);
+            }
         }
 
         public Vector2Int GenerateFood(IReadOnlyCollection<WorldObject> _)
@@ -25,16 +34,25 @@ namespace NsuWorms.World.FoodGeneration
 
         private void Fill(string data)
         {
-            _foods.Clear();
-            Console.WriteLine(data);
-            string[] points = data.Split(',');
-            foreach (var point in points)
+            try
             {
-                string[] coordinates = point.Split('.');
-                _foods.Add(new Vector2Int(
-                        int.Parse(coordinates[0]),
-                        int.Parse(coordinates[1])
-                        ));
+                _foods.Clear();
+                Console.WriteLine(data);
+                string[] points = data.Split(',');
+                foreach (var point in points)
+                {
+                    string[] coordinates = point.Split('.');
+                    _foods.Add(new Vector2Int(
+                            int.Parse(coordinates[0]),
+                            int.Parse(coordinates[1])
+                            ));
+                }
+            }
+            catch (Exception)
+            {
+                _foods.Clear();
+                Console.WriteLine("Failed to parse behaviour!");
+                _foods.Add(Vector2Int.Zero);
             }
         }
     }
