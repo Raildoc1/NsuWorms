@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NsuWormsWorldBehaviourGenerator.MathUtils
+namespace NsuWormsWorldBehaviourGenerator.Database
 {
     public static class RandomExtensions
     {

@@ -1,17 +1,24 @@
-﻿using NsuWormsWorldBehaviourGenerator.MathUtils;
+﻿using NsuWormsWorldBehaviourGenerator.Database;
+using NsuWormsWorldBehaviourGenerator.MathUtils;
 using System;
 using System.Collections.Generic;
 
-namespace NsuWormsWorldBehaviourGenerator.Core
+namespace NsuWormsWorldBehaviourGenerator.Core.Generation
 {
-    public class Generator
+    public class NormalRandomGenerator : IGenerator
     {
         private List<Vector2Int> _foods = new List<Vector2Int>();
+        private string _behaviourName;
 
-        public string GenerateBehaviour()
+        public NormalRandomGenerator(string behaviourName)
+        {
+            _behaviourName = behaviourName;
+        }
+
+        public Behaviour GenerateBehaviour()
         {
             FillList();
-            return GetString();
+            return new Behaviour() { Id = _behaviourName, Points = GetString() };
         }
 
         private void FillList()
@@ -28,6 +35,7 @@ namespace NsuWormsWorldBehaviourGenerator.Core
                 _foods.Add(temp);
             }
         }
+
 
         private string GetString()
         {

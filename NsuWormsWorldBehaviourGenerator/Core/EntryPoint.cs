@@ -1,4 +1,10 @@
-﻿using NsuWormsWorldBehaviourGenerator.SQL;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using NsuWormsWorldBehaviourGenerator.Core.Generation;
+using NsuWormsWorldBehaviourGenerator.Database;
+using NsuWormsWorldBehaviourGenerator.Database.DatabaseWriter;
+using System.Configuration;
 
 namespace NsuWormsWorldBehaviourGenerator.Core
 {
@@ -6,7 +12,19 @@ namespace NsuWormsWorldBehaviourGenerator.Core
     {
         static void Main(string[] args)
         {
-            SqlConnector.WriteToDatabase(args[0], new Generator().GenerateBehaviour());
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddHostedService<GeneratorDatabaseDataProvider>();
+                    services.AddScoped<IGenerator>(ctx => { return new NormalRandomGenerator(args[0]); });
+                    services.AddScoped<IDatabaseBehaviourWriter, SqlBehaviourWriter>();
+                    services.AddDbContextPool<BehavioursDbContext>(options => options.UseSqlServer(ConfigurationManager.ConnectionStrings["localWindowsDatabase"].ConnectionString));
+                });
         }
     }
 }

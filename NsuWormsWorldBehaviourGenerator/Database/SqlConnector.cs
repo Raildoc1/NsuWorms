@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace NsuWormsWorldBehaviourGenerator.SQL
+namespace NsuWormsWorldBehaviourGenerator.Database
 {
     public class SqlConnector
     {
