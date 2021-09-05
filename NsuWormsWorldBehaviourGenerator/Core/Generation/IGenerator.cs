@@ -1,4 +1,6 @@
-﻿namespace NsuWormsWorldBehaviourGenerator.Core.Generation
+﻿using NsuWorms.World;
+
+namespace NsuWormsWorldBehaviourGenerator.Core.Generation
 {
     public interface IGenerator
     {

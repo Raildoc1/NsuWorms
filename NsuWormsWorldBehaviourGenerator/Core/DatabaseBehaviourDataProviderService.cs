@@ -17,9 +17,14 @@ namespace NsuWormsWorldBehaviourGenerator.Core
             _databaseWriter = databaseWriter;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public void Execute()
         {
             _databaseWriter.WriteBehaviour(_generator.GenerateBehaviour());
+        }
+
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            Execute();
             return Task.CompletedTask;
         }
 

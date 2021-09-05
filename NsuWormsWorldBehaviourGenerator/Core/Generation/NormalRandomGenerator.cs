@@ -1,4 +1,5 @@
-﻿using NsuWormsWorldBehaviourGenerator.Database;
+﻿using NsuWorms.World;
+using NsuWormsWorldBehaviourGenerator.Database;
 using NsuWormsWorldBehaviourGenerator.MathUtils;
 using System;
 using System.Collections.Generic;

@@ -5,6 +5,7 @@ using NsuWorms.Worms;
 using NsuWorms.Worms.AI;
 using NsuWorms.Worms.AI.Behaviours;
 using NsuWorms.Writers;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -213,14 +214,19 @@ namespace NsuWorms.World
             return null;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public void Execute()
         {
             for (int i = 0; i < 100; i++)
             {
                 Tick();
             }
 
-            return Task.CompletedTask;
+            Console.WriteLine("Finished successfully!");
+        }
+
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            return Task.Run(() => Execute());
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

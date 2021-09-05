@@ -1,4 +1,5 @@
-﻿using NsuWormsWorldBehaviourGenerator.Core;
+﻿using NsuWorms.Database;
+using NsuWorms.World;
 
 namespace NsuWormsWorldBehaviourGenerator.Database.DatabaseWriter
 {

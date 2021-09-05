@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NsuWorms.Database;
 using NsuWormsWorldBehaviourGenerator.Core.Generation;
-using NsuWormsWorldBehaviourGenerator.Database;
 using NsuWormsWorldBehaviourGenerator.Database.DatabaseWriter;
 using System.Configuration;
 

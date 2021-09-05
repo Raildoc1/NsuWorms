@@ -39,7 +39,6 @@ namespace NsuWorms.World.FoodGeneration
             try
             {
                 _foods.Clear();
-                Console.WriteLine(data);
                 string[] points = data.Split(',');
                 foreach (var point in points)
                 {
