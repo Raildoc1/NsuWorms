@@ -3,6 +3,7 @@ using NsuWorms.Database;
 using NsuWorms.World;
 using NsuWorms.World.FoodGeneration;
 using NsuWorms.Worms.AI.Brains;
+using NsuWorms.Worms.NamesGeneration;
 using NsuWorms.Writers;
 using NsuWormsWorldBehaviourGenerator.Core;
 using NsuWormsWorldBehaviourGenerator.Core.Generation;
@@ -51,7 +52,8 @@ namespace NsuWormsNUnitTests
                 new ConsoleWriter(),
                 foodGenerator,
                 new ChaseClosestFood(),
-                new World2StringConverter()
+                new World2StringConverter(),
+                new SimpleUniqueNamesGenerator("Test")
                 );
 
             simulator.Tick();

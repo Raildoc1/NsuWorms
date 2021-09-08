@@ -5,6 +5,7 @@ using NsuWorms.Worms;
 using NsuWorms.Worms.AI;
 using NsuWorms.Worms.AI.Behaviours;
 using NsuWorms.Worms.AI.Brains;
+using NsuWorms.Worms.NamesGeneration;
 using NsuWorms.Writers;
 using NUnit.Framework;
 using System;
@@ -22,7 +23,8 @@ namespace NsuWormsNUnitTests
                 new ConsoleWriter(),
                 new NormalFoodGenerator(),
                 new ClockWiseMovement(),
-                new World2StringConverter()
+                new World2StringConverter(),
+                new SimpleUniqueNamesGenerator("Test")
                 );
 
             // Worm starts on (0, 0)
@@ -44,7 +46,8 @@ namespace NsuWormsNUnitTests
                 new ConsoleWriter(),
                 new TestFoodSpawner(new Vector2Int(1, 1)),
                 new ClockWiseMovement(),
-                new World2StringConverter()
+                new World2StringConverter(),
+                new SimpleUniqueNamesGenerator("Test")
                 );
 
             // Food generates on (1, 1) so it must be eaten on 2nd tick
@@ -98,7 +101,8 @@ namespace NsuWormsNUnitTests
                 new ConsoleWriter(),
                 new TestFoodSpawner(new Vector2Int(0, 0)),
                 new TestWormAI(0),
-                new World2StringConverter()
+                new World2StringConverter(),
+                new SimpleUniqueNamesGenerator("Test")
                 );
 
 
@@ -114,7 +118,8 @@ namespace NsuWormsNUnitTests
                 new ConsoleWriter(),
                 new TestFoodSpawner(new Vector2Int(0, 0)),
                 new TestWormAI(0),
-                new World2StringConverter()
+                new World2StringConverter(),
+                new SimpleUniqueNamesGenerator("Test")
                 );
 
             worldSimulator.Tick();
@@ -132,7 +137,8 @@ namespace NsuWormsNUnitTests
                 new ConsoleWriter(),
                 new TestFoodSpawner(new Vector2Int(0, 0)),
                 new TestWormAI(1),
-                new World2StringConverter()
+                new World2StringConverter(),
+                new SimpleUniqueNamesGenerator("Test")
                 );
 
             worldSimulator.Tick();
@@ -150,7 +156,8 @@ namespace NsuWormsNUnitTests
                 new ConsoleWriter(),
                 new TestFoodSpawner(new Vector2Int(0, 0)),
                 new TestWormAI(1),
-                new World2StringConverter()
+                new World2StringConverter(),
+                new SimpleUniqueNamesGenerator("Test")
                 );
 
             worldSimulator.Tick();
@@ -165,44 +172,6 @@ namespace NsuWormsNUnitTests
             Assert.AreEqual(wormPosition, newWormPosition);
         }
 
-        public class TestWormAI : IWormBrain
-        {
-            private bool _firstMove = true;
-            private int _currentMove = 0;
-            private bool _mustReproduce = true;
-            private Direction _lastReproduceDirection;
-
-            public TestWormAI(int initialMove)
-            {
-                _currentMove = initialMove;
-            }
-
-            public BehaviourEntity RequestBehaviour(Worm target, WorldSimulatorService world)
-            {
-                if (_firstMove)
-                {
-                    _firstMove = false;
-                    return new NullBehaviour();
-                }
-
-                if (_mustReproduce)
-                {
-                    _mustReproduce = !_mustReproduce;
-                    var values = Enum.GetValues(typeof(Direction));
-                    var direciton = (Direction)values.GetValue(_currentMove % values.Length);
-                    _currentMove++;
-                    _lastReproduceDirection = direciton;
-                    return new ReproduceBehaviour(direciton);
-                }
-                else
-                {
-                    _mustReproduce = !_mustReproduce;
-                    Console.WriteLine("Trying to move...");
-                    return new MoveInDirectionBehaviour(_lastReproduceDirection);
-                }
-            }
-        }
-
         [Test]
         public void ClosestFoodMovement()
         {
@@ -210,7 +179,8 @@ namespace NsuWormsNUnitTests
                 new ConsoleWriter(),
                 new NormalFoodGenerator(),
                 new ChaseClosestFood(),
-                new World2StringConverter()
+                new World2StringConverter(),
+                new SimpleUniqueNamesGenerator("Test")
                 );
 
             for (int i = 0; i < 100; i++)
@@ -273,6 +243,30 @@ namespace NsuWormsNUnitTests
             {
                 var direction = b - a;
                 return Math.Abs(direction.X) + Math.Abs(direction.Y);
+            }
+        }
+        
+        [Test]
+        public void UniqueNamesTest()
+        {
+            var generator = new SimpleUniqueNamesGenerator("Test");
+
+            string[] names = new string[100];
+
+            for (int i = 0; i < 100; i++)
+            {
+                names[i] = generator.Next();
+            }
+
+            for (int i = 0; i < 99; i++)
+            {
+                for (int j = i + 1; j < 100; j++)
+                {
+                    if(names[i].Equals(names[j]))
+                    {
+                        Assert.Fail();
+                    }
+                }
             }
         }
     }

@@ -6,6 +6,7 @@ using NsuWorms.World;
 using NsuWorms.World.FoodGeneration;
 using NsuWorms.Worms.AI;
 using NsuWorms.Worms.AI.Brains;
+using NsuWorms.Worms.NamesGeneration;
 using NsuWorms.Writers;
 using System.Configuration;
 
@@ -25,6 +26,7 @@ namespace NsuWorms.Core
                 {
                     services.AddHostedService<WorldSimulatorService>();
                     services.AddScoped<IWriter>(ctx => { return new FileWriter("output.txt"); });
+                    services.AddScoped<INamesGenerator>(ctx => { return new SimpleUniqueNamesGenerator("Ivan"); });
                     services.AddScoped<IFoodGenerator, PreloadedFoodGenerator>();
                     services.AddScoped<IFoodDataLoader, DatabaseFoodLoader>();
                     services.AddScoped<IDatabaseFoodReader>(ctx => { return new DatabaseFoodReader(args[0]); });

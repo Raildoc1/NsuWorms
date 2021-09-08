@@ -4,6 +4,7 @@ using NsuWorms.World.FoodGeneration;
 using NsuWorms.Worms;
 using NsuWorms.Worms.AI;
 using NsuWorms.Worms.AI.Behaviours;
+using NsuWorms.Worms.NamesGeneration;
 using NsuWorms.Writers;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace NsuWorms.World
         private readonly IFoodGenerator _foodGenerator;
         private readonly IWormBrain _wormBrain;
         private readonly IWorld2StringConverter _toStringConverter;
+        private readonly INamesGenerator _namesGenerator;
 
         private List<Worm> _worms = new List<Worm>();
         private List<Food> _foods = new List<Food>();
@@ -26,21 +28,27 @@ namespace NsuWorms.World
         public IReadOnlyCollection<Worm> Worms => _worms;
         public IReadOnlyCollection<Food> Foods => _foods;
 
-        public WorldSimulatorService(IWriter writer, IFoodGenerator foodGenerator, IWormBrain wormBrain, IWorld2StringConverter converter)
+        public WorldSimulatorService(
+            IWriter writer,
+            IFoodGenerator foodGenerator,
+            IWormBrain wormBrain,
+            IWorld2StringConverter converter,
+            INamesGenerator namesGenerator)
         {
             _writer = writer;
             _foodGenerator = foodGenerator;
             _wormBrain = wormBrain;
             _toStringConverter = converter;
+            _namesGenerator = namesGenerator;
 
-            AddWorm(Vector2Int.Zero, "Ivan");
+            AddWorm(Vector2Int.Zero);
 
             WriteData();
         }
 
-        private void AddWorm(Vector2Int position, string name)
+        private void AddWorm(Vector2Int position)
         {
-            _worms.Add(new Worm(position, _wormBrain, name));
+            _worms.Add(new Worm(position, _wormBrain, _namesGenerator.Next()));
         }
 
         public void Tick()
@@ -134,7 +142,7 @@ namespace NsuWorms.World
 
             if (IsCellFree(desiredPosition) && target.Health > Worm.ReproduceCost)
             {
-                AddWorm(desiredPosition, $"Ivan{Worm.GlobalCount}");
+                AddWorm(desiredPosition);
             }
 
             target.Reproduce();
