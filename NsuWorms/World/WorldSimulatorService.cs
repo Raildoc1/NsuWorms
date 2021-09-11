@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace NsuWorms.World
 {
-    public sealed class WorldSimulatorService : IHostedService
+    public sealed class WorldSimulatorService : BackgroundService
     {
         private readonly IWriter _writer;
         private readonly IFoodGenerator _foodGenerator;
@@ -43,7 +43,7 @@ namespace NsuWorms.World
 
             AddWorm(Vector2Int.Zero);
 
-            WriteData();
+            WriteWorldData();
         }
 
         private void AddWorm(Vector2Int position)
@@ -57,7 +57,7 @@ namespace NsuWorms.World
             UpdateWorms();
             TryEatFood();
             CheckForDeadWorms();
-            WriteData();
+            WriteWorldData();
         }
 
         private void UpdateFood()
@@ -167,7 +167,7 @@ namespace NsuWorms.World
             _worms.RemoveAll(i => i.Health == 0);
         }
 
-        private void WriteData()
+        private void WriteWorldData()
         {
             _writer.WriteLine(_toStringConverter.Convert(this));
         }
@@ -222,23 +222,20 @@ namespace NsuWorms.World
             return null;
         }
 
-        public void Execute()
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             for (int i = 0; i < 100; i++)
             {
+                if (stoppingToken.IsCancellationRequested)
+                {
+                    Console.WriteLine("World simulation canceled!");
+                    return Task.CompletedTask;
+                }
+
                 Tick();
             }
 
-            Console.WriteLine("Finished successfully!");
-        }
-
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            return Task.Run(() => Execute());
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
+            Console.WriteLine($"World simulation finished successfully! { Worms.Count } worms survive!");
             return Task.CompletedTask;
         }
     }

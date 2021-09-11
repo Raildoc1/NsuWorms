@@ -16,7 +16,9 @@ namespace NsuWorms.Core
     {
         private static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)
@@ -31,7 +33,7 @@ namespace NsuWorms.Core
                     services.AddScoped<IFoodDataLoader, DatabaseFoodLoader>();
                     services.AddScoped<IDatabaseFoodReader>(ctx => { return new DatabaseFoodReader(args[0]); });
                     services.AddScoped<IWorld2StringConverter, World2StringConverter>();
-                    services.AddScoped<IWormBrain, ChaseClosestFood>();
+                    services.AddScoped<IWormBrain>(ctx => { return new HttpPostBehaviourReader(args[1], args[2]); });
                     services.AddDbContextPool<BehavioursDbContext>(options => options.UseSqlServer(ConfigurationManager.ConnectionStrings["localWindowsDatabase"].ConnectionString));
                 });
         }
