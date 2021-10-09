@@ -36,6 +36,7 @@ namespace NsuWorms.World.FoodGeneration
 
         private void Fill(string data)
         {
+            Console.WriteLine($"Parsing...");
             try
             {
                 _foods.Clear();
@@ -48,6 +49,7 @@ namespace NsuWorms.World.FoodGeneration
                             int.Parse(coordinates[1])
                             ));
                 }
+                Console.WriteLine($"Successed!");
             }
             catch (Exception)
             {

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NsuWorms.Database;
 using NsuWorms.World;
@@ -8,7 +7,6 @@ using NsuWorms.Worms.AI;
 using NsuWorms.Worms.AI.Brains;
 using NsuWorms.Worms.NamesGeneration;
 using NsuWorms.Writers;
-using System.Configuration;
 
 namespace NsuWorms.Core
 {
@@ -27,14 +25,14 @@ namespace NsuWorms.Core
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<WorldSimulatorService>();
-                    services.AddScoped<IWriter>(ctx => { return new FileWriter("output.txt"); });
-                    services.AddScoped<INamesGenerator>(ctx => { return new SimpleUniqueNamesGenerator("Ivan"); });
-                    services.AddScoped<IFoodGenerator, PreloadedFoodGenerator>();
-                    services.AddScoped<IFoodDataLoader, DatabaseFoodLoader>();
-                    services.AddScoped<IDatabaseFoodReader>(ctx => { return new DatabaseFoodReader(args[0]); });
-                    services.AddScoped<IWorld2StringConverter, World2StringConverter>();
-                    services.AddScoped<IWormBrain>(ctx => { return new HttpPostBehaviourReader(args[1], args[2]); });
-                    services.AddDbContextPool<BehavioursDbContext>(options => options.UseSqlServer(ConfigurationManager.ConnectionStrings["localWindowsDatabase"].ConnectionString));
+                    services.AddSingleton<IWriter>(ctx => { return new FileWriter("output.txt"); });
+                    services.AddSingleton<INamesGenerator>(ctx => { return new SimpleUniqueNamesGenerator("Ivan"); });
+                    services.AddSingleton<IFoodGenerator, PreloadedFoodGenerator>();
+                    services.AddSingleton<IFoodDataLoader, DatabaseFoodLoader>();
+                    services.AddSingleton<IDatabaseFoodReader>(ctx => { return new DatabaseFoodReader(args[0]); });
+                    services.AddSingleton<IWorld2StringConverter, World2StringConverter>();
+                    services.AddSingleton<IWormBrain, ChaseClosestFood>();
+                    services.AddSingleton<BehavioursDbContext>();
                 });
         }
     }

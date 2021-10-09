@@ -1,4 +1,6 @@
-﻿namespace NsuWorms.Database
+﻿using System;
+
+namespace NsuWorms.Database
 {
     public sealed class DatabaseFoodReader : IDatabaseFoodReader
     {
@@ -11,14 +13,18 @@
 
         public string GetFoodsString(BehavioursDbContext database)
         {
+            Console.WriteLine($"Trying to get food from database...");
+
             foreach (var behaviour in database.Behaviours)
             {
-                if(behaviour.Id.Equals(_behaviourName))
+                if (behaviour.Id.Equals(_behaviourName))
                 {
+                    Console.WriteLine($"Behaviour successfully found!");
                     return behaviour.Points;
                 }
             }
 
+            Console.WriteLine($"Failed to find!");
             return string.Empty;
         }
     }
